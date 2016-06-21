@@ -14,6 +14,7 @@ namespace LoveMsg
     {
         private Settings settings;
         private bool showHeart = false;
+        private DateTime startDate;
         public Form1()
         {
             InitializeComponent();
@@ -27,6 +28,8 @@ namespace LoveMsg
         private void Form1_Load(object sender, EventArgs e)
         {
             settings = new Settings("settings.ini");
+            startDate = settings.GetDate("startDate", DateTime.Today);
+            label1.Text = DaysBetween().ToString();
             HandleFontChange();
             HandleResize();
             this.Left = settings.GetInt("X", (Screen.PrimaryScreen.Bounds.Width - 150));
@@ -38,11 +41,11 @@ namespace LoveMsg
             pictureBox1.Height = label1.Height + 2 * label1.Top;
             if (showHeart)
             {
-                pictureBox2.Height = pictureBox1.Height;
+                pictureBox2.Height = pictureBox1.Height-6;
                 pictureBox2.Width = pictureBox2.Height;
-                pictureBox2.Left = label1.Width + 2 * label1.Left;
+                pictureBox2.Left = label1.Width + label1.Left;
                 pictureBox2.Visible = true;
-                pictureBox1.Width = pictureBox2.Left + pictureBox2.Width+label1.Left;
+                pictureBox1.Width = pictureBox2.Left + pictureBox2.Width+4;
             }
             else
             {
@@ -57,7 +60,8 @@ namespace LoveMsg
             FontFamily fontFamily=FontFamily.GenericMonospace;
             try { fontFamily = new FontFamily(fontFamilyName); } catch (Exception) { }
             var fontSize = settings.GetFloat("fontSize", 12);
-            var font = new Font(fontFamily, fontSize);
+            var fontBold = settings.Get("fontBold", "true") != "false";
+            var font = new Font(fontFamily, fontSize, fontBold ? FontStyle.Bold : FontStyle.Regular);
             label1.Font = font;
         }
         public const int WM_NCLBUTTONDOWN = 0xA1;
@@ -101,6 +105,16 @@ namespace LoveMsg
             this.Opacity = settings.GetDouble("OpacityLeave", 0.3);
             showHeart = false;
             HandleResize();
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            label1.Text = DaysBetween().ToString();
+            HandleResize();
+        }
+        private int DaysBetween()
+        {
+            return (DateTime.Now - startDate).Days + 1;
         }
     }
 }
