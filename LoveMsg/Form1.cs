@@ -13,11 +13,15 @@ namespace LoveMsg
     public partial class Form1 : Form
     {
         private Settings settings;
+        private bool showHeart = false;
         public Form1()
         {
             InitializeComponent();
             label1.Parent = pictureBox1;
             label1.BackColor = Color.Transparent;
+            pictureBox2.Parent = pictureBox1;
+            pictureBox2.BackColor = Color.Transparent;
+            pictureBox2.BringToFront();
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -32,12 +36,26 @@ namespace LoveMsg
         private void HandleResize()
         {
             pictureBox1.Height = label1.Height + 2 * label1.Top;
-            pictureBox1.Width = label1.Width + 2 * label1.Left;
+            if (showHeart)
+            {
+                pictureBox2.Height = pictureBox1.Height;
+                pictureBox2.Width = pictureBox2.Height;
+                pictureBox2.Left = label1.Width + 2 * label1.Left;
+                pictureBox2.Visible = true;
+                pictureBox1.Width = pictureBox2.Left + pictureBox2.Width+label1.Left;
+            }
+            else
+            {
+                pictureBox1.Width = label1.Width + 2 * label1.Left;
+                pictureBox2.Visible = false;
+            }
             this.Size = pictureBox1.Size;
         }
         private void HandleFontChange()
         {
-            var fontFamily = new FontFamily(settings.Get("fontFamily", "Arial"));
+            var fontFamilyName = settings.Get("fontFamily", "");
+            FontFamily fontFamily=FontFamily.GenericMonospace;
+            try { fontFamily = new FontFamily(fontFamilyName); } catch (Exception) { }
             var fontSize = settings.GetFloat("fontSize", 12);
             var font = new Font(fontFamily, fontSize);
             label1.Font = font;
@@ -73,12 +91,16 @@ namespace LoveMsg
 
         private void Form1_MouseEnter(object sender, EventArgs e)
         {
+            showHeart = true;
+            HandleResize();
             this.Opacity = settings.GetDouble("OpacityEnter", 0.8);
         }
 
         private void Form1_MouseLeave(object sender, EventArgs e)
         {
             this.Opacity = settings.GetDouble("OpacityLeave", 0.3);
+            showHeart = false;
+            HandleResize();
         }
     }
 }
