@@ -135,23 +135,4 @@ namespace LoveMsg
             HandleResize();
         }
     }
-    public class GlobalMouseHandler : IMessageFilter
-    {
-        private Form1 instance;
-        private const int WM_LBUTTONDOWN = 0x201;
-
-        public GlobalMouseHandler(Form1 instance)
-        {
-            this.instance = instance;
-        }
-
-        public bool PreFilterMessage(ref Message m)
-        {
-            if (m.Msg == WM_LBUTTONDOWN)
-            {
-                
-            }
-            return false;
-        }
-    }
 }
