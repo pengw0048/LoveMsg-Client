@@ -65,8 +65,8 @@ namespace LoveMsg
             catch (Exception) { }
             if (font == null)
             {
-                FontFamily fontFamily = FontFamily.GenericMonospace;
-                var fontSize = settings.GetFloat("fontSize", 12);
+                var fontFamily = FontFamily.GenericMonospace;
+                var fontSize = 12;
                 font = new Font(fontFamily, fontSize, FontStyle.Bold);
             }
             label1.Font = font;
