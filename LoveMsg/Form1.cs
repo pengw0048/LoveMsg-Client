@@ -56,12 +56,19 @@ namespace LoveMsg
         }
         private void HandleFontChange()
         {
-            var fontFamilyName = settings.Get("fontFamily", "");
-            FontFamily fontFamily=FontFamily.GenericMonospace;
-            try { fontFamily = new FontFamily(fontFamilyName); } catch (Exception) { }
-            var fontSize = settings.GetFloat("fontSize", 12);
-            var fontBold = settings.Get("fontBold", "true") != "false";
-            var font = new Font(fontFamily, fontSize, fontBold ? FontStyle.Bold : FontStyle.Regular);
+            var fontstr = settings.Get("font", "");
+            Font font = null;
+            try
+            {
+                font = (Font)new FontConverter().ConvertFromInvariantString(fontstr);
+            }
+            catch (Exception) { }
+            if (font == null)
+            {
+                FontFamily fontFamily = FontFamily.GenericMonospace;
+                var fontSize = settings.GetFloat("fontSize", 12);
+                font = new Font(fontFamily, fontSize, FontStyle.Bold);
+            }
             label1.Font = font;
         }
         public const int WM_NCLBUTTONDOWN = 0xA1;

@@ -25,11 +25,11 @@ namespace LoveMsg
                     while (!sr.EndOfStream)
                     {
                         var ts = sr.ReadLine().Split('=');
-                        if (ts.Length == 2) dict.Add(ts[0], ts[1]);
+                        if (ts.Length == 2) dict.Add(ts[0], ts[1].Replace("\\equals","="));
                     }
                 }
             }
-            catch (Exception e) { }
+            catch (Exception) { }
         }
         public void Save()
         {
@@ -39,11 +39,11 @@ namespace LoveMsg
                 {
                     foreach (var pair in dict)
                     {
-                        sw.WriteLine(pair.Key + "=" + pair.Value);
+                        sw.WriteLine(pair.Key + "=" + pair.Value.Replace("=","\\equals"));
                     }
                 }
             }
-            catch (Exception e) { }
+            catch (Exception) { }
         }
         public string Get(string key,string def)
         {
