@@ -6,7 +6,7 @@ using System.IO;
 
 namespace LoveMsg
 {
-    class Settings
+    public class Settings
     {
         private Dictionary<string, string> dict;
         private string filename;

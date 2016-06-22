@@ -12,8 +12,9 @@ namespace LoveMsg
 {
     public partial class Form1 : Form
     {
-        private Settings settings;
+        public Settings settings;
         private bool showHeart = false;
+        private bool showForm = false;
         private DateTime startDate;
         public Form1()
         {
@@ -28,13 +29,12 @@ namespace LoveMsg
         private void Form1_Load(object sender, EventArgs e)
         {
             settings = new Settings("settings.ini");
-            startDate = settings.GetDate("startDate", DateTime.Today);
             label1.Text = DaysBetween().ToString();
             HandleFontChange();
             HandleResize();
             this.Left = settings.GetInt("X", (Screen.PrimaryScreen.Bounds.Width - 150));
             this.Top = settings.GetInt("Y", 10);
-            this.Form1_MouseLeave(null, null);
+            timer2_Tick(null, null);
         }
         private void HandleResize()
         {
@@ -95,6 +95,7 @@ namespace LoveMsg
 
         private void Form1_MouseEnter(object sender, EventArgs e)
         {
+            showForm = true;
             showHeart = true;
             HandleResize();
             this.Opacity = settings.GetDouble("OpacityEnter", 0.8);
@@ -102,9 +103,8 @@ namespace LoveMsg
 
         private void Form1_MouseLeave(object sender, EventArgs e)
         {
-            this.Opacity = settings.GetDouble("OpacityLeave", 0.3);
-            showHeart = false;
-            HandleResize();
+            showForm = false;
+            timer2.Enabled = true;
         }
 
         private void timer1_Tick(object sender, EventArgs e)
@@ -114,7 +114,44 @@ namespace LoveMsg
         }
         private int DaysBetween()
         {
+            startDate = settings.GetDate("startDate", DateTime.Today);
             return (DateTime.Now - startDate).Days + 1;
+        }
+
+        private void toolStripMenuItem2_Click(object sender, EventArgs e)
+        {
+            new Form2(this).ShowDialog();
+            label1.Text = DaysBetween().ToString();
+            HandleFontChange();
+            HandleResize();
+        }
+
+        private void timer2_Tick(object sender, EventArgs e)
+        {
+            timer2.Enabled = false;
+            if (showForm) return;
+            this.Opacity = settings.GetDouble("OpacityLeave", 0.3);
+            showHeart = false;
+            HandleResize();
+        }
+    }
+    public class GlobalMouseHandler : IMessageFilter
+    {
+        private Form1 instance;
+        private const int WM_LBUTTONDOWN = 0x201;
+
+        public GlobalMouseHandler(Form1 instance)
+        {
+            this.instance = instance;
+        }
+
+        public bool PreFilterMessage(ref Message m)
+        {
+            if (m.Msg == WM_LBUTTONDOWN)
+            {
+                
+            }
+            return false;
         }
     }
 }
