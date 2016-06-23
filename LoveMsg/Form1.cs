@@ -15,7 +15,9 @@ namespace LoveMsg
         public Settings settings;
         private bool showHeart = false;
         private bool showForm = false;
+        private bool doAnime = true;
         private DateTime startDate;
+        private Animation animation;
         public Form1()
         {
             InitializeComponent();
@@ -29,6 +31,9 @@ namespace LoveMsg
         private void Form1_Load(object sender, EventArgs e)
         {
             settings = new Settings("settings.ini");
+            animation = new Animation();
+            timer3.Interval = settings.GetInt("animeSpeed", 200);
+            timer3.Enabled = true;
             label1.Text = DaysBetween().ToString();
             HandleFontChange();
             HandleResize();
@@ -128,6 +133,7 @@ namespace LoveMsg
         private void toolStripMenuItem2_Click(object sender, EventArgs e)
         {
             new Form2(this).ShowDialog();
+            timer3.Interval = settings.GetInt("animeSpeed", 200);
             label1.Text = DaysBetween().ToString();
             HandleFontChange();
             HandleResize();
@@ -140,6 +146,17 @@ namespace LoveMsg
             this.Opacity = settings.GetDouble("OpacityLeave", 0.3);
             showHeart = false;
             HandleResize();
+        }
+
+        private void timer3_Tick(object sender, EventArgs e)
+        {
+            if (!doAnime) return;
+            label1.ForeColor = animation.Next();
+        }
+
+        private void toolStripMenuItem3_CheckStateChanged(object sender, EventArgs e)
+        {
+            doAnime = toolStripMenuItem3.Checked;
         }
     }
 }

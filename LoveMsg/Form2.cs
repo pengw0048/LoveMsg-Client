@@ -22,6 +22,7 @@ namespace LoveMsg
         private void Form2_Load(object sender, EventArgs e)
         {
             dateTimePicker1.Value = instance.settings.GetDate("startDate", DateTime.Today);
+            trackBar1.Value = instance.settings.GetInt("animeSpeed", 200) / 20;
             font = instance.label1.Font;
             UpdateFontDisplay();
         }
@@ -31,6 +32,7 @@ namespace LoveMsg
             var fontstr = new FontConverter().ConvertToInvariantString(font);
             instance.settings.Set("startDate", dateTimePicker1.Value,false);
             instance.settings.Set("font", fontstr);
+            instance.settings.Set("animeSpeed", trackBar1.Value * 20);
             instance.settings.Save();
             this.Dispose();
         }
