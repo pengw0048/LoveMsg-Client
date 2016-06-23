@@ -18,7 +18,7 @@ namespace LoveMsg
             var member = textBox2.Text.Trim();
             if (group == "" || member == "")
             {
-                MessageBox.Show("不能为空");
+                MessageBox.Show(instance,"不能为空");
                 return;
             }
             string ret = "";
@@ -28,7 +28,7 @@ namespace LoveMsg
             }catch(Exception ex) { MessageBox.Show(ex.ToString()); return; }
             if (ret.Length <= 2)
             {
-                MessageBox.Show("未知错误");
+                MessageBox.Show(instance,"未知错误");
                 return;
             }
             if (ret.Substring(0, 2) != "1:")
@@ -36,7 +36,7 @@ namespace LoveMsg
                 MessageBox.Show(ret);
                 return;
             }
-            MessageBox.Show(ret.Substring(2));
+            MessageBox.Show(instance,ret.Substring(2));
             instance.settings.Set("group", group, false);
             instance.settings.Set("member", member, false);
             instance.settings.Save();

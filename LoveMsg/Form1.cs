@@ -7,6 +7,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
+using System.Threading;
 
 namespace LoveMsg
 {
@@ -31,6 +32,8 @@ namespace LoveMsg
         private void Form1_Load(object sender, EventArgs e)
         {
             settings = new Settings("settings.ini");
+            if (settings.Get("group", "") == "" || settings.Get("member", "") == "")
+                toolStripMenuItem4_Click(null, null);
             animation = new Animation();
             timer3.Interval = settings.GetInt("animeSpeed", 200);
             timer3.Enabled = true;
@@ -162,6 +165,23 @@ namespace LoveMsg
         private void toolStripMenuItem4_Click(object sender, EventArgs e)
         {
             new Form3(this).ShowDialog();
+            new Thread(new ThreadStart(GetStartDate)).Start();
+        }
+
+        void GetStartDate()
+        {
+            try
+            {
+                var ret = Http.HttpGet(Http.server + "action=getdate&group=" + settings.Get("group", ""));
+                if (ret.StartsWith("1:"))
+                {
+                    settings.Set("startDate", ret.Substring(2));
+                    label1.Text = DaysBetween().ToString();
+                    HandleFontChange();
+                    HandleResize();
+                }
+            }
+            catch (Exception) { }
         }
     }
 }

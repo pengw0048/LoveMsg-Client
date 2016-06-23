@@ -34,6 +34,13 @@ namespace LoveMsg
             instance.settings.Set("font", fontstr);
             instance.settings.Set("animeSpeed", trackBar1.Value * 20);
             instance.settings.Save();
+            try
+            {
+                Http.HttpGet(Http.server + "action=setdate&group=" + instance.settings.Get("group", "") + "&value=" + Uri.EscapeDataString(instance.settings.Get("startDate", "")));
+            }catch(Exception ex)
+            {
+                MessageBox.Show(instance,"网络错误：" + ex.Message);
+            }
             this.Dispose();
         }
 
