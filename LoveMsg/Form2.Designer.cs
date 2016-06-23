@@ -99,7 +99,7 @@
             this.trackBar1.Maximum = 15;
             this.trackBar1.Minimum = 1;
             this.trackBar1.Name = "trackBar1";
-            this.trackBar1.Size = new System.Drawing.Size(174, 31);
+            this.trackBar1.Size = new System.Drawing.Size(189, 31);
             this.trackBar1.TabIndex = 3;
             this.trackBar1.Value = 1;
             // 
