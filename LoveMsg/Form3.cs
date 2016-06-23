@@ -1,10 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 namespace LoveMsg
@@ -20,7 +14,39 @@ namespace LoveMsg
 
         private void button1_Click(object sender, EventArgs e)
         {
+            var group = textBox1.Text.Trim();
+            var member = textBox2.Text.Trim();
+            if (group == "" || member == "")
+            {
+                MessageBox.Show("不能为空");
+                return;
+            }
+            string ret = "";
+            try
+            {
+                ret = Http.HttpGet(Http.server + "action=login&group=" + group + "&member=" + member);
+            }catch(Exception ex) { MessageBox.Show(ex.ToString()); return; }
+            if (ret.Length <= 2)
+            {
+                MessageBox.Show("未知错误");
+                return;
+            }
+            if (ret.Substring(0, 2) != "1:")
+            {
+                MessageBox.Show(ret);
+                return;
+            }
+            MessageBox.Show(ret.Substring(2));
+            instance.settings.Set("group", group, false);
+            instance.settings.Set("member", member, false);
+            instance.settings.Save();
             this.Dispose();
+        }
+
+        private void Form3_Load(object sender, EventArgs e)
+        {
+            textBox1.Text = instance.settings.Get("group","");
+            textBox2.Text = instance.settings.Get("member","");
         }
     }
 }
