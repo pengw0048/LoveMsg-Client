@@ -16,17 +16,22 @@ namespace LoveMsg
         public Settings settings;
         private bool showHeart = false;
         private bool showForm = false;
+        private bool showMsg = true;
         private bool doAnime = true;
         private DateTime startDate;
         private Animation animation;
         public Form1()
         {
             InitializeComponent();
+            pictureBox1.BackColor = Color.Transparent;
             label1.Parent = pictureBox1;
             label1.BackColor = Color.Transparent;
             pictureBox2.Parent = pictureBox1;
             pictureBox2.BackColor = Color.Transparent;
             pictureBox2.BringToFront();
+            pictureBox3.Parent = pictureBox1;
+            pictureBox3.BackColor = Color.Transparent;
+            pictureBox3.BringToFront();
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -46,18 +51,29 @@ namespace LoveMsg
         }
         private void HandleResize()
         {
+            int left= label1.Width + label1.Left;
             pictureBox1.Height = label1.Height + 2 * label1.Top;
+            if (showMsg)
+            {
+                label2.Top=pictureBox3.Height = pictureBox3.Width= pictureBox1.Height - 10;
+                label2.Left=pictureBox3.Left = left;
+                left += pictureBox3.Width + 3;
+                pictureBox3.Visible = true;
+            }else
+            {
+                pictureBox3.Visible = false;
+            }
             if (showHeart)
             {
-                pictureBox2.Height = pictureBox1.Height-6;
+                pictureBox2.Height = pictureBox1.Height - 6;
                 pictureBox2.Width = pictureBox2.Height;
-                pictureBox2.Left = label1.Width + label1.Left;
+                pictureBox2.Left = left;
                 pictureBox2.Visible = true;
-                pictureBox1.Width = pictureBox2.Left + pictureBox2.Width+4;
+                pictureBox1.Width = left + pictureBox2.Width + 4;
             }
             else
             {
-                pictureBox1.Width = label1.Width + 2 * label1.Left;
+                pictureBox1.Width = left + 4;
                 pictureBox2.Visible = false;
             }
             this.Size = pictureBox1.Size;
@@ -182,6 +198,16 @@ namespace LoveMsg
                 }
             }
             catch (Exception) { }
+        }
+
+        private void timer4_Tick(object sender, EventArgs e)
+        {
+            this.TopMost = true;
+        }
+
+        private void pictureBox3_Click(object sender, EventArgs e)
+        {
+            toolTip2.Show("Hello World", label2);
         }
     }
 }
