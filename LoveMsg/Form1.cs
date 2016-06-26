@@ -20,6 +20,7 @@ namespace LoveMsg
         private bool doAnime = true;
         private DateTime startDate;
         private Animation animation;
+        private ToolTip toolTip2 = null;
         public Form1()
         {
             InitializeComponent();
@@ -207,6 +208,9 @@ namespace LoveMsg
 
         private void pictureBox3_Click(object sender, EventArgs e)
         {
+            if (toolTip2 != null) toolTip2.Dispose();
+            toolTip2 = new ToolTip();
+            toolTip2.IsBalloon = true;
             toolTip2.Show("Hello World", label2);
         }
     }

@@ -44,7 +44,6 @@
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.timer4 = new System.Windows.Forms.Timer(this.components);
-            this.toolTip2 = new System.Windows.Forms.ToolTip(this.components);
             this.label2 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
@@ -169,10 +168,6 @@
             this.timer4.Interval = 2000;
             this.timer4.Tick += new System.EventHandler(this.timer4_Tick);
             // 
-            // toolTip2
-            // 
-            this.toolTip2.IsBalloon = true;
-            // 
             // label2
             // 
             this.label2.Location = new System.Drawing.Point(56, 61);
@@ -230,7 +225,6 @@
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.PictureBox pictureBox3;
         private System.Windows.Forms.Timer timer4;
-        private System.Windows.Forms.ToolTip toolTip2;
         private System.Windows.Forms.Label label2;
     }
 }
