@@ -128,11 +128,12 @@ namespace LoveMsg
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
         {
             settings.Save();
+            Environment.Exit(0);
         }
 
         private void toolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            Application.Exit();
+            Environment.Exit(0);
         }
 
         private void Form1_MouseEnter(object sender, EventArgs e)
