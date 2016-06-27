@@ -160,7 +160,8 @@
             this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox2.TabIndex = 2;
             this.pictureBox2.TabStop = false;
-            this.toolTip1.SetToolTip(this.pictureBox2, "单击发送信息\r\n双击发送心跳");
+            this.toolTip1.SetToolTip(this.pictureBox2, "单击发送信息");
+            this.pictureBox2.Click += new System.EventHandler(this.pictureBox2_Click);
             this.pictureBox2.MouseEnter += new System.EventHandler(this.Form1_MouseEnter);
             this.pictureBox2.MouseLeave += new System.EventHandler(this.Form1_MouseLeave);
             // 
@@ -177,6 +178,10 @@
             // timer3
             // 
             this.timer3.Tick += new System.EventHandler(this.timer3_Tick);
+            // 
+            // toolTip1
+            // 
+            this.toolTip1.ShowAlways = true;
             // 
             // pictureBox3
             // 

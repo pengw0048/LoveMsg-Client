@@ -8,6 +8,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
 using System.Threading;
+using Microsoft.VisualBasic;
 
 namespace LoveMsg
 {
@@ -283,6 +284,28 @@ namespace LoveMsg
                     Thread.Sleep(60000);
                 }
                 catch (Exception) { }
+            }
+        }
+
+        private void pictureBox2_Click(object sender, EventArgs e)
+        {
+            stayTop = false;
+            var content = Interaction.InputBox("消息内容");
+            stayTop = true;
+            if (content == null || content.Trim() == "") return;
+            new Thread(new ParameterizedThreadStart(SendMessage)).Start(content);
+        }
+
+        private void SendMessage(object msg)
+        {
+            var content = (string)msg;
+            try
+            {
+                Http.HttpGet(Http.server + "action=sendmsg&group=" + settings.Get("group", "") + "&member=" + settings.Get("member", "") + "&content=" + Uri.EscapeDataString(content));
+            }
+            catch(Exception e)
+            {
+                MessageBox.Show(e.Message);
             }
         }
     }
