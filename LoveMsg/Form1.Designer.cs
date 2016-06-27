@@ -212,7 +212,7 @@
             // 
             // timer5
             // 
-            this.timer5.Interval = 4000;
+            this.timer5.Interval = 5000;
             this.timer5.Tick += new System.EventHandler(this.timer5_Tick);
             // 
             // Form1

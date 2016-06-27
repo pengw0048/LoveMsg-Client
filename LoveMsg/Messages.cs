@@ -48,7 +48,7 @@ namespace LoveMsg
         }
         private void UpdateMsg()
         {
-            var inteval = new TimeSpan(0, 0, 8);
+            var inteval = new TimeSpan(0, 0, 4);
             var ser = new DataContractJsonSerializer(typeof(Message[]));
             var addr = Http.server + "action=getmsg&group=" + instance.settings.Get("group", "") + "&member=" + instance.settings.Get("member", "");
             while (running)
