@@ -33,6 +33,9 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripMenuItem();
+            this.自动弹出ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.显示图标ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -45,6 +48,7 @@
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.timer4 = new System.Windows.Forms.Timer(this.components);
             this.label2 = new System.Windows.Forms.Label();
+            this.timer5 = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
@@ -70,11 +74,12 @@
             // 
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItem3,
+            this.toolStripMenuItem5,
             this.toolStripMenuItem2,
             this.toolStripMenuItem4,
             this.toolStripMenuItem1});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(101, 92);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(137, 114);
             // 
             // toolStripMenuItem3
             // 
@@ -82,28 +87,53 @@
             this.toolStripMenuItem3.CheckOnClick = true;
             this.toolStripMenuItem3.CheckState = System.Windows.Forms.CheckState.Checked;
             this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(100, 22);
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(136, 22);
             this.toolStripMenuItem3.Text = "动画";
             this.toolStripMenuItem3.CheckStateChanged += new System.EventHandler(this.toolStripMenuItem3_CheckStateChanged);
+            // 
+            // toolStripMenuItem5
+            // 
+            this.toolStripMenuItem5.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.自动弹出ToolStripMenuItem,
+            this.显示图标ToolStripMenuItem});
+            this.toolStripMenuItem5.Name = "toolStripMenuItem5";
+            this.toolStripMenuItem5.Size = new System.Drawing.Size(136, 22);
+            this.toolStripMenuItem5.Text = "新消息提示";
+            // 
+            // 自动弹出ToolStripMenuItem
+            // 
+            this.自动弹出ToolStripMenuItem.CheckOnClick = true;
+            this.自动弹出ToolStripMenuItem.Name = "自动弹出ToolStripMenuItem";
+            this.自动弹出ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.自动弹出ToolStripMenuItem.Text = "自动弹出";
+            this.自动弹出ToolStripMenuItem.CheckedChanged += new System.EventHandler(this.自动弹出ToolStripMenuItem_CheckedChanged);
+            // 
+            // 显示图标ToolStripMenuItem
+            // 
+            this.显示图标ToolStripMenuItem.CheckOnClick = true;
+            this.显示图标ToolStripMenuItem.Name = "显示图标ToolStripMenuItem";
+            this.显示图标ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.显示图标ToolStripMenuItem.Text = "显示图标";
+            this.显示图标ToolStripMenuItem.Click += new System.EventHandler(this.显示图标ToolStripMenuItem_Click);
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(100, 22);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(136, 22);
             this.toolStripMenuItem2.Text = "设置";
             this.toolStripMenuItem2.Click += new System.EventHandler(this.toolStripMenuItem2_Click);
             // 
             // toolStripMenuItem4
             // 
             this.toolStripMenuItem4.Name = "toolStripMenuItem4";
-            this.toolStripMenuItem4.Size = new System.Drawing.Size(100, 22);
+            this.toolStripMenuItem4.Size = new System.Drawing.Size(136, 22);
             this.toolStripMenuItem4.Text = "账号";
             this.toolStripMenuItem4.Click += new System.EventHandler(this.toolStripMenuItem4_Click);
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(100, 22);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(136, 22);
             this.toolStripMenuItem1.Text = "退出";
             this.toolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
             // 
@@ -175,6 +205,11 @@
             this.label2.Size = new System.Drawing.Size(0, 0);
             this.label2.TabIndex = 4;
             // 
+            // timer5
+            // 
+            this.timer5.Interval = 4000;
+            this.timer5.Tick += new System.EventHandler(this.timer5_Tick);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -226,6 +261,10 @@
         private System.Windows.Forms.PictureBox pictureBox3;
         private System.Windows.Forms.Timer timer4;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Timer timer5;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem5;
+        private System.Windows.Forms.ToolStripMenuItem 自动弹出ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 显示图标ToolStripMenuItem;
     }
 }
 

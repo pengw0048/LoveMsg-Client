@@ -78,6 +78,13 @@ namespace LoveMsg
             if (str == "NaN" || !DateTime.TryParse(str, out ret)) return def;
             return ret;
         }
+        public bool GetBool(string key, bool def)
+        {
+            var str = Get(key, "NaN");
+            bool ret;
+            if (str == "NaN" || !bool.TryParse(str, out ret)) return def;
+            return ret;
+        }
         public void Set(string key,string value,bool save=true)
         {
             dict[key] = value;

@@ -7,7 +7,7 @@ namespace LoveMsg
 {
     class Http
     {
-        public static string server = "http://localhost/lovemsg.php?";
+        public static string server = "http://127.0.0.1/lovemsg.php?";
         public static string GetResponse(ref HttpWebRequest req, out CookieCollection cookies, bool GetLocation = false, bool GetRange = false, bool NeedResponse = true)
         {
             HttpWebResponse res = null;

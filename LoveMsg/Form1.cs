@@ -16,11 +16,13 @@ namespace LoveMsg
         public Settings settings;
         private bool showHeart = false;
         private bool showForm = false;
-        private bool showMsg = true;
+        private bool showMsg = false;
         private bool doAnime = true;
+        private bool stayTop = true;
         private DateTime startDate;
         private Animation animation;
         private ToolTip toolTip2 = null;
+        private Messages msg = null;
         public Form1()
         {
             InitializeComponent();
@@ -38,6 +40,8 @@ namespace LoveMsg
         private void Form1_Load(object sender, EventArgs e)
         {
             settings = new Settings("settings.ini");
+            if (settings.GetBool("autopop", true)) 自动弹出ToolStripMenuItem.Checked = true;
+            else 显示图标ToolStripMenuItem.Checked = true;
             if (settings.Get("group", "") == "" || settings.Get("member", "") == "")
                 toolStripMenuItem4_Click(null, null);
             animation = new Animation();
@@ -49,6 +53,11 @@ namespace LoveMsg
             this.Left = settings.GetInt("X", (Screen.PrimaryScreen.Bounds.Width - 150));
             this.Top = settings.GetInt("Y", 10);
             timer2_Tick(null, null);
+            msg = new Messages(this);
+            new Thread(new ThreadStart(GetStartDate)).Start();
+            new Thread(new ThreadStart(CleanThread)).Start();
+            SetDateToolTip();
+            timer5.Enabled = true;
         }
         private void HandleResize()
         {
@@ -152,7 +161,9 @@ namespace LoveMsg
 
         private void toolStripMenuItem2_Click(object sender, EventArgs e)
         {
+            stayTop = false;
             new Form2(this).ShowDialog();
+            stayTop = true;
             timer3.Interval = settings.GetInt("animeSpeed", 200);
             label1.Text = DaysBetween().ToString();
             HandleFontChange();
@@ -181,8 +192,11 @@ namespace LoveMsg
 
         private void toolStripMenuItem4_Click(object sender, EventArgs e)
         {
+            stayTop = false;
             new Form3(this).ShowDialog();
+            stayTop = true;
             new Thread(new ThreadStart(GetStartDate)).Start();
+            SetDateToolTip();
         }
 
         void GetStartDate()
@@ -201,17 +215,75 @@ namespace LoveMsg
             catch (Exception) { }
         }
 
+        void SetDateToolTip()
+        {
+            toolTip1.SetToolTip(label1, settings.Get("member", "") + "@" + settings.Get("group", ""));
+        }
+
         private void timer4_Tick(object sender, EventArgs e)
         {
-            this.TopMost = true;
+            if(stayTop)
+                this.TopMost = true;
         }
 
         private void pictureBox3_Click(object sender, EventArgs e)
         {
+            if (!msg.HasMore()) return;
+            var newmsg = msg.Get();
             if (toolTip2 != null) toolTip2.Dispose();
             toolTip2 = new ToolTip();
             toolTip2.IsBalloon = true;
-            toolTip2.Show("Hello World", label2);
+            toolTip2.Show(newmsg.name+":\r\n"+newmsg.content, label1, timer5.Interval);
+        }
+
+        private void timer5_Tick(object sender, EventArgs e)
+        {
+            if(msg.HasMore() && settings.GetBool("autopop", true))
+            {
+                var newmsg = msg.Get();
+                if (toolTip2 != null) toolTip2.Dispose();
+                toolTip2 = new ToolTip();
+                toolTip2.IsBalloon = true;
+                toolTip2.Show(newmsg.name + ":\r\n" + newmsg.content, label1, timer5.Interval);
+            }
+            if(showMsg && !msg.HasMore())
+            {
+                showMsg = false;
+                HandleResize();
+            }else if(!showMsg && msg.HasMore())
+            {
+                showMsg = true;
+                HandleResize();
+            }
+        }
+
+        private void 自动弹出ToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
+        {
+            显示图标ToolStripMenuItem.Checked = !自动弹出ToolStripMenuItem.Checked;
+            settings.Set("autopop", 自动弹出ToolStripMenuItem.Checked);
+        }
+
+        private void 显示图标ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            自动弹出ToolStripMenuItem.Checked = !显示图标ToolStripMenuItem.Checked;
+            settings.Set("autopop", 自动弹出ToolStripMenuItem.Checked);
+        }
+
+        void CleanThread()
+        {
+            while (true)
+            {
+                try
+                {
+                    Http.HttpGet(Http.server + "action=cleanup&group=" + settings.Get("group", "") + "&member=" + settings.Get("member", ""));
+                }
+                catch (Exception) { }
+                try
+                {
+                    Thread.Sleep(60000);
+                }
+                catch (Exception) { }
+            }
         }
     }
 }
